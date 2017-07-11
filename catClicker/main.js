@@ -21,6 +21,7 @@
 
       listView.init();
       catView.init();
+      adminView.init();
     },
     getCurCat: () => model.curCat,
     getCats: () => model.cats,
@@ -28,6 +29,61 @@
     incrementCount: () => {
       model.curCat.count++;
       catView.renderCat();
+    }
+  };
+
+  const adminView = {
+    init: () => {
+      let adminBtn = document.getElementById('admin');
+      this.adminArea = document.getElementById('admin-area');
+
+      this.catName = document.getElementById('cat-name');
+      this.catSrc = document.getElementById('cat-src');
+      this.catCount = document.getElementById('cat-count');
+      this.adminSave = document.getElementById('admin-save');
+      this.adminCancel = document.getElementById('admin-cancel');
+      this.showAdmin = false;
+
+      adminBtn.addEventListener('click', () => {
+        this.showAdmin = !this.showAdmin;
+        adminView.render();
+      });
+
+      this.adminSave.addEventListener('click', () => {
+        adminView.updateCat();
+      });
+
+      this.adminCancel.addEventListener('click', () => {
+        this.showAdmin = false;
+        adminView.render();
+      });
+
+      adminView.render();
+    },
+
+    updateCat: () => {
+      let curCat = octopus.getCurCat();
+      curCat.name = this.catName.value;
+      curCat.src = this.catSrc.value;
+      curCat.count = this.catCount.value;
+
+      this.showAdmin = false;
+      adminView.render();
+
+      listView.render();
+      catView.renderCat();
+    },
+
+    render: () => {
+      if (this.showAdmin) {
+        let curCat = octopus.getCurCat();
+        this.adminArea.classList.remove('invisible');
+        this.catName.value = curCat.name;
+        this.catSrc.value = curCat.src;
+        this.catCount.value = curCat.count;
+      } else {
+        this.adminArea.classList.add('invisible');
+      }
     }
   };
   // view
@@ -51,26 +107,29 @@
 
         elem.addEventListener('click', () => {
           octopus.setCurrentCat(cat);
-          listView.setActive(elem);
+          listView.setActive();
           catView.renderCat();
         });
 
         this.listContainer.appendChild(elem);
       }
-      this.elems[0].classList.add('active');
+      listView.setActive();
     },
-    setActive: (elem) => {
+    setActive: () => {
+      let curCat = octopus.getCurCat();
       for (let i = this.elems.length - 1; i >= 0; i--) {
         this.elems[i].classList.remove('active');
+        if (curCat.name === this.elems[i].textContent) {
+          this.elems[i].classList.add('active');
+        }
       }
-      elem.classList.add('active');
     }
   };
   const catView = {
     init: () => {
       this.picElem = document.getElementById('pic');
-      this.picDescElem = document.getElementById('cat-desc');
-      this.picCountElem = document.getElementById('cat-count');
+      this.picDescElem = document.getElementById('pic-desc');
+      this.picCountElem = document.getElementById('pic-count');
 
       this.picElem.addEventListener('click', function () {
         octopus.incrementCount();

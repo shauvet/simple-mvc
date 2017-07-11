@@ -7,9 +7,8 @@
   <title>cat-clicker</title>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-
     <div class="col-md-6">
       <ul class="list-group" id="list-container">
       </ul>
@@ -18,10 +17,30 @@
       <figure class="figure" id="pic-container">
         <img id="pic" src="" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
         <figcaption class="figure-caption">
-          <span id="cat-desc"></span><br>
-          <span id="cat-count"></span>
+          <span id="pic-desc"></span><br>
+          <span id="pic-count"></span>
         </figcaption>
       </figure>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <button class="btn btn-primary" id="admin">admin</button>
+    </div>
+    <div class="col-md-10 invisible" id="admin-area">
+      <form class="form-inline">
+        <label class="sr-only" for="cat-name">CAT-NAME</label>
+        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="cat-name">
+
+        <label class="sr-only" for="cat-src">CAT-SRC</label>
+        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="cat-src">
+
+        <label class="sr-only" for="cat-count">CAT-SRC</label>
+        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="cat-count">
+
+        <button type="button" class="btn btn-primary" id="admin-save">save</button>
+        <button type="button" class="btn btn-danger" id="admin-cancel">cancel</button>
+      </form>
     </div>
   </div>
 </div>
